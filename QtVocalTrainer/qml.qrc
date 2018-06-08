@@ -69,5 +69,7 @@
         <file>qml/AppWindow.qml</file>
         <file>qml/HeaderWithSubHeader.qml</file>
         <file>qml/js/zoom.js</file>
+        <file>shaders/vertexshader.glsl</file>
+        <file>shaders/fragmentshader.glsl</file>
     </qresource>
 </RCC>

@@ -22,6 +22,7 @@ protected:
 private:
     WorkspaceDrawer workspaceDrawer;
     float devicePixelRatio_;
+    GLuint programId;
 
 private slots:
     void zoomChanged();

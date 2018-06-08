@@ -68,6 +68,7 @@ SOURCES += \
     player.cpp \
     ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/audiodecoder.cpp \
     ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/audiodecodercoreaudio.cpp \
+    ../PitchDetection/CppUtils/OpenGLUtils.cpp \
     mainwindowosx.mm
 
 RESOURCES += qml.qrc
@@ -146,7 +147,8 @@ HEADERS += \
     ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/audiodecoder.h \
     ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/audiodecodercoreaudio.h \
     ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/apple/CADebugMacros.h \
-    ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/apple/CAStreamBasicDescription.h
+    ../VocalTrainer/VxPlayer/AudioPlayback/Decoder/apple/CAStreamBasicDescription.h \
+    ../PitchDetection/CppUtils/OpenGLUtils.h \
 
 INCLUDEPATH += ../include \
     ../VocalTrainer/GLScene \
