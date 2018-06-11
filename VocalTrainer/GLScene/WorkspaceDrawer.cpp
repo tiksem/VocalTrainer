@@ -8,15 +8,20 @@
 #include "CountAssert.h"
 #include "Pitch.h"
 #include "TimeUtils.h"
+#include "Algorithms.h"
 #include <iostream>
 #include <cmath>
 
 #include "NvgOpenGLDrawer.h"
 #include "ConcurrentModificationAssert.h"
 
-using namespace CppUtils;
+//using namespace CppUtils;
 using std::cout;
 using std::endl;
+using RoundedRectF = CppUtils::RoundedRectF;
+using LineSegmentF = CppUtils::LineSegmentF;
+using PointF = CppUtils::PointF;
+namespace TimeUtils = CppUtils::TimeUtils;
 
 constexpr int BEATS_IN_TACT = 4;
 
@@ -121,7 +126,7 @@ void WorkspaceDrawer::drawPitch(float x, float y, float width) const {
     drawer->fill();
 }
 
-void WorkspaceDrawer::drawPitches() const {
+void WorkspaceDrawer::drawPitches() {
     ConcurrentModificationAssertBegin(vxFile);
     assert(firstPitchPerfectFrequencyIndex >= 0);
     if (!vxFile) {
@@ -134,6 +139,9 @@ void WorkspaceDrawer::drawPitches() const {
     double timeBegin = (horizontalOffset / intervalWidth) / intervalsPerSecond - getPitchGraphDuration();
     double timeEnd = timeBegin + workspaceDuration;
 
+    float pitchGraphWidth = PITCHES_GRAPH_WIDTH_IN_INTERVALS * intervalWidth;
+    intersectionCandidatesPitchRects.clear();
+
     vxFile->iteratePitchesInTimeRange(timeBegin, timeEnd, [&] (const VxPitch& vxPitch) {
         double pitchTimeBegin = vxFile->ticksToSeconds(vxPitch.startTickNumber);
         double pitchDuration = vxFile->ticksToSeconds(vxPitch.ticksCount);
@@ -142,6 +150,12 @@ void WorkspaceDrawer::drawPitches() const {
         double pitchWidth = pitchDuration / workspaceDuration * width;
         int distanceFromFirstPitch = getDistanceFromFirstPitch(vxPitch.pitch);
         float y = height - (distanceFromFirstPitch + 1) * intervalHeight;
+
+        if (x < pitchGraphWidth) {
+            RoundedRectF rect(PointF(x, y), pitchWidth, intervalHeight, pitchRadius);
+            intersectionCandidatesPitchRects.push_back(rect);
+        }
+
         drawPitch((float)x, y, (float)pitchWidth);
     });
 
@@ -156,10 +170,11 @@ void WorkspaceDrawer::setVxFile(const VxFile* vxFile) {
     this->vxFile = vxFile;
 }
 
-void WorkspaceDrawer::drawPitchesGraph() const {
+void WorkspaceDrawer::drawPitchesGraph() {
     assert(firstPitchPerfectFrequencyIndex >= 0);
     assert(pitchesCollector);
     assert(pitchGraphColor[3] > 0 && "pitchGraphColor not initialized or is completely transparent");
+    assert(pitchPositiveGraphColor[3] > 0 && "pitchPositiveGraphColor not initialized or is completely transparent");
 
     int pitchesCount = pitchesCollector->getPitchesCount();
     int i = 0;
@@ -194,7 +209,6 @@ void WorkspaceDrawer::drawPitchesGraph() const {
 
         double time = pitchesCollector->getTimeAt(i);
         getXY(time, pitch);
-        drawer->moveTo((float)x, (float)y);
 
         i++;
         if (i >= pitchesCount) {
@@ -202,7 +216,11 @@ void WorkspaceDrawer::drawPitchesGraph() const {
         }
 
         if (!pitchesCollector->getPitchAt(i).isValid()) {
-            drawer->lineTo((float)x, (float)y);
+            // draw point
+            drawer->setStrokeColor(isInsideAnyPitch(x, y) ? pitchPositiveGraphColor : pitchGraphColor);
+            drawer->moveTo((float)x, (float)y);
+            drawer->lineTo(x, y);
+            drawer->stroke();
             continue;
         }
 
@@ -213,11 +231,36 @@ void WorkspaceDrawer::drawPitchesGraph() const {
             }
 
             double time = pitchesCollector->getTimeAt(i);
+            float xBefore = (float)x;
+            float yBefore = (float)y;
+            drawer->moveTo((float)x, (float)y);
             getXY(time, pitch);
-            drawer->lineTo((float)x, (float)y);
+            fillIntersections(LineSegmentF(xBefore, yBefore, x, y));
+            drawer->setStrokeColor(pitchGraphColor);
+            if (intersections.empty()) {
+                drawer->lineTo((float)x, (float)y);
+                drawer->stroke();
+            } else {
+                cout<<"bla";
+                for (const std::array<PointF, 2>& intersection : intersections) {
+                    drawer->setStrokeColor(pitchGraphColor);
+                    drawer->lineTo(intersection[0]);
+                    drawer->stroke();
+                    drawer->moveTo(intersection[0]);
+                    drawer->setStrokeColor(pitchPositiveGraphColor);
+                    drawer->lineTo(intersection[1]);
+                    drawer->stroke();
+                    drawer->moveTo(intersection[1]);
+                }
+
+                if (intersections.back().back() != PointF(x, y)) {
+                    drawer->setStrokeColor(pitchGraphColor);
+                    drawer->lineTo(x, y);
+                    drawer->stroke();
+                }
+            }
         }
     }
-    drawer->stroke();
 }
 
 int WorkspaceDrawer::getDistanceFromFirstPitch(const Pitch &pitch) const {
@@ -336,4 +379,41 @@ int WorkspaceDrawer::getFirstPitchPerfectFrequencyIndex() const {
 void WorkspaceDrawer::setFirstPitchPerfectFrequencyIndex(int firstPitchPerfectFrequencyIndex) {
     assert(firstPitchPerfectFrequencyIndex >= 0);
     this->firstPitchPerfectFrequencyIndex = firstPitchPerfectFrequencyIndex;
+}
+
+bool WorkspaceDrawer::isInsideAnyPitch(float x, float y) const {
+    return std::any_of(intersectionCandidatesPitchRects.begin(), intersectionCandidatesPitchRects.end(),
+            [=] (const RoundedRectF& rect) {
+        return rect.containsPoint(x, y);
+    });
+}
+
+const WorkspaceDrawer::Color &WorkspaceDrawer::getPitchPositiveGraphColor() const {
+    return pitchPositiveGraphColor;
+}
+
+void WorkspaceDrawer::setPitchPositiveGraphColor(const WorkspaceDrawer::Color &pitchPositiveGraphColor) {
+    CountAssert(1);
+    this->pitchPositiveGraphColor = pitchPositiveGraphColor;
+}
+
+void WorkspaceDrawer::fillIntersections(const CppUtils::LineSegmentF& segment) {
+    intersections.clear();
+    for (const auto& rect : intersectionCandidatesPitchRects) {
+        std::array<PointF, 2> temp;
+        int count = rect.getIntersectionsWithLineSegment(segment, &temp);
+        if (count >= 2) {
+            intersections.push_back(temp);
+        }
+    }
+
+    for (auto& pair : intersections) {
+        if (pair[0].x < pair[1].x) {
+            std::swap(pair[0], pair[1]);
+        }
+    }
+
+    SortByKey(intersections, [] (const auto& pair) {
+        return -pair[0].x;
+    });
 }

@@ -12,6 +12,7 @@
 #include <array>
 #include "PitchesCollector.h"
 #include "VxFile.h"
+#include "RoundedRect.h"
 
 class WorkspaceDrawer {
     typedef Drawer::Color Color;
@@ -29,6 +30,7 @@ class WorkspaceDrawer {
     Color gridColor;
     Color accentGridColor;
     Color pitchGraphColor;
+    Color pitchPositiveGraphColor;
     Color pitchColor;
 
     float width = -1;
@@ -39,15 +41,22 @@ class WorkspaceDrawer {
     PitchesCollector* pitchesCollector = nullptr;
     const VxFile* vxFile = nullptr;
 
+    std::vector<CppUtils::RoundedRectF> intersectionCandidatesPitchRects;
+    // avoid intensive memory allocations
+    std::vector<std::array<CppUtils::PointF, 2>> intersections;
+
     void drawHorizontalLine(float y, const Color& color) const;
     void drawVerticalGrid() const;
     void drawHorizontalGrid() const;
     void drawPitch(float x, float y, float width) const;
-    void drawPitches() const;
-    void drawPitchesGraph() const;
+    void drawPitches();
+    void drawPitchesGraph();
 
     double getPitchGraphDuration() const;
     double getIntervalDuration() const;
+
+    bool isInsideAnyPitch(float x, float y) const;
+    void fillIntersections(const CppUtils::LineSegmentF& segment);
 public:
     WorkspaceDrawer();
     ~WorkspaceDrawer();
@@ -82,6 +91,8 @@ public:
     void setPitchGraphColor(const Color &pitchGraphColor);
     const Color &getPitchColor() const;
     void setPitchColor(const Color &pitchColor);
+    const Color &getPitchPositiveGraphColor() const;
+    void setPitchPositiveGraphColor(const Color &pitchPositiveGraphColor);
 
     PitchesCollector *getPitchesCollector() const;
     void setPitchesCollector(PitchesCollector *pitchesCollector);
