@@ -195,7 +195,7 @@ void MainController::generateRecording(MvxFile *out) {
     out->setRecordingData(recording);
 
     // save instrumental
-    out->setInstrumental(mvxPlayer->getInstrumental());
+    out->setInstrumental(originalInstrumental.empty() ? mvxPlayer->getInstrumental() : originalInstrumental);
     out->setVxFile(*mvxPlayer->getVxFile());
     out->setBeatsPerMinute(mvxPlayer->getBeatsPerMinute());
 
@@ -209,4 +209,37 @@ void MainController::saveRecordingIntoFile(const char *filePath) {
     MvxFile mvxFile;
     generateRecording(&mvxFile);
     mvxFile.writeToFile(filePath);
+}
+
+OperationCancelerPtr MainController::decodeAndSetAsPlayerSource(const char *filePath,
+                                                                bool *decodingNeeded,
+                                                                const std::function<void(float)> &progressListener,
+                                                                const std::function<void()> &taskFinished) {
+    OperationCancelerPtr operationCanceler = OperationCanceler::create();
+    MvxFile mvxFile = MvxFile::readFromFile(filePath);
+    mvxPlayer->init(std::move(mvxFile));
+    const std::string &instrumental = mvxPlayer->getInstrumental();
+    if (WAVFile::isWavFile(instrumental.data(), instrumental.size())) {
+        *decodingNeeded = false;
+        decodedInstrumental.initWithWavData(instrumental);
+        taskFinished();
+    } else {
+        Executors::ExecuteOnBackgroundThread([=] {
+            const std::string &instrumental = mvxPlayer->getInstrumental();
+            decodedInstrumental = AudioDecoder::decodeAllIntoRawPcm(instrumental, [=](float progress) {
+                            Executors::ExecuteOnMainThread([=] {
+                                progressListener(progress);
+                            });
+                        }, operationCanceler);
+            Executors::ExecuteOnMainThread([=] {
+                taskFinished();
+            });
+        });
+    }
+
+    return operationCanceler;
+}
+
+const DecodedTrack &MainController::getDecodedInstrumental() const {
+    return decodedInstrumental;
 }

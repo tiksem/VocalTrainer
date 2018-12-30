@@ -9,8 +9,8 @@
 #include <QWidget>
 
 namespace VxAppUtils {
-    bool OpenExistingProject(QWidget* parent);
-    void OpenProject(const QString& fileName);
+    void OpenExistingProject(QWidget *parent, const std::function<void(bool)> &onFinish);
+    void OpenProject(QWidget *parent, const QString &fileName, const std::function<void(bool)> &onFinish);
 }
 
 

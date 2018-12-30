@@ -79,17 +79,24 @@ void WelcomeWindow::setupProjectsList(QQmlContext *context) {
 
 void WelcomeWindow::openExistingProject() {
     hide();
-    if (VxAppUtils::OpenExistingProject(this)) {
-        showProjectWindow();
-    } else {
-        show();
-    }
+    VxAppUtils::OpenExistingProject(this, [=] (bool success) {
+        if (success) {
+            showProjectWindow();
+        } else {
+            show();
+        }
+    });
 }
 
 void WelcomeWindow::openRecentProject(const QString& filePath) {
     hide();
-    VxAppUtils::OpenProject(filePath);
-    showProjectWindow();
+    VxAppUtils::OpenProject(this, filePath, [=] (bool success) {
+        if (success) {
+            showProjectWindow();
+        } else {
+            show();
+        }
+    });
 }
 
 void WelcomeWindow::showProjectWindow() {

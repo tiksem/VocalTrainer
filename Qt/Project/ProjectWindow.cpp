@@ -197,7 +197,7 @@ void ProjectWindow::setupMenus() {
 }
 
 void ProjectWindow::onFileOpen() {
-    VxAppUtils::OpenExistingProject(this);
+    VxAppUtils::OpenExistingProject(this, <#initializer#>);
 }
 
 void ProjectWindow::onSelectMicrophone() {

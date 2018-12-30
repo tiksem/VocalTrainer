@@ -21,6 +21,7 @@ class MainController {
     WorkspaceZoomController* zoomController = nullptr;
     WorkspaceController* workspaceController = nullptr;
     PlaybackBoundsSelectionController* playbackBoundsSelectionController = nullptr;
+    std::string originalInstrumental;
 
     void updateZoom();
     void updateWorkspaceFirstPitch();
@@ -29,6 +30,8 @@ class MainController {
     void updateSeek(double seek);
 
     void generateRecording(MvxFile* out);
+    DecodedTrack decodedInstrumental;
+
 public:
     typedef typename CppUtils::ListenersSet<float>::Listener WorkspaceHorizontalOffsetChangedListener;
 
@@ -44,6 +47,12 @@ public:
     void setWorkspaceController(WorkspaceController* workspaceController);
 
     void saveRecordingIntoFile(const char* filePath);
+    OperationCancelerPtr decodeAndSetAsPlayerSource(const char *filePath,
+                                                    bool *decodingNeeded,
+                                                    const std::function<void(float)> &progressListener,
+                                                    const std::function<void()> &taskFinished);
+
+    const DecodedTrack &getDecodedInstrumental() const;
 
     static MainController* instance();
     static void initInstance(MainController* inst);
