@@ -2,16 +2,21 @@
 #include <QResizeEvent>
 #include <QMacNativeWidget>
 #include "Utils/QtUtils.h"
+#include "Executors.h"
+
+using namespace CppUtils;
 
 #define LOCK std::lock_guard<std::mutex> _(sizeMutex)
 
 QMetalWidget::QMetalWidget(QWidget *parent)
-    : QWidget(parent)
+    : QMacCocoaViewContainer(nil, parent)
 {
-    NSView* view = QtUtils::getNSView(this);
-    metalView = [[MetalView alloc] initWithFrame:view.frame
-                 callback:this andDevicePixelRatio:devicePixelRatioF()];
-    [view addSubview:metalView];
+    // Post to the end of main thread queue to ensure QMetalWidget vtable is initialised
+    Executors::ExecuteOnMainThread([=] {
+        metalView = [[MetalView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)
+                                            callback:this andDevicePixelRatio:devicePixelRatioF()];
+        setCocoaView(metalView);
+    }, true);
 }
 
 void QMetalWidget::resizeEvent(QResizeEvent *event) {
@@ -29,15 +34,19 @@ void QMetalWidget::addSubview(NSView* view) {
 
 QMacNativeWidget*  QMetalWidget::addSubWidget(QWidget* widget) {
     auto *nativeWidget = new QMacNativeWidget();
-    widget->setParent(nativeWidget);
-    NSView *nativeWidgetView = QtUtils::getNSView(nativeWidget);
-    addSubview(nativeWidgetView);
-    nativeWidget->show();
-
-    nativeWidget->resize(widget->size());
-    QtUtils::AddResizeListener(widget, [&] (int width, int height) {
-        nativeWidget->resize(width, height);
-    });
+//    widget->setParent(nativeWidget);
+//    NSView *nativeWidgetView = QtUtils::getNSView(nativeWidget);
+//    addSubview(nativeWidgetView);
+//    nativeWidget->show();
+//
+//    nativeWidget->resize(widget->size());
+//    QtUtils::AddResizeListener(widget, [&] (int width, int height) {
+//        nativeWidget->resize(width, height);
+//    }
 
     return nativeWidget;
+}
+
+void QMetalWidget::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
 }

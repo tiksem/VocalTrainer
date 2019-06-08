@@ -13,7 +13,7 @@ class VxApp : public QApplication, public MainController
 public:
     VxApp(int &argc, char *argv[]);
     QtMvxPlayer* getPlayer() const;
-    void executeOnMainThread(const std::function<void()>& callback);
+    void executeOnMainThread(const std::function<void()> &callback, bool ensureAsync);
     ~VxApp() override;
 
     static VxApp* instance();

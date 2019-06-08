@@ -32,8 +32,8 @@ VxApp::VxApp(int &argc, char *argv[]) : QApplication(argc, argv) {
     QFontDatabase::addApplicationFontFromData(Fonts::latoBold());
 }
 
-void VxApp::executeOnMainThread(const std::function<void()>& callback) {
-    if (QApplication::instance()->thread() == QThread::currentThread()) {
+void VxApp::executeOnMainThread(const std::function<void()> &callback, bool ensureAsync) {
+    if (!ensureAsync && QApplication::instance()->thread() == QThread::currentThread()) {
         callback();
         return;
     }

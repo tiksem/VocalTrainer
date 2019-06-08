@@ -17,8 +17,8 @@ namespace CppUtils {
             }
         };
 
-        void ExecuteOnMainThread(std::function<void()> function) {
-            VxApp::instance()->executeOnMainThread(function);
+        void ExecuteOnMainThread(std::function<void()> function, bool ensureAsync) {
+            VxApp::instance()->executeOnMainThread(function, ensureAsync);
         }
 
         void ExecuteOnBackgroundThread(std::function<void()> function) {
