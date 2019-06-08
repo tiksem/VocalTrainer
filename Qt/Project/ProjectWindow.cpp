@@ -146,16 +146,16 @@ ProjectWindow::ProjectWindow() :
 }
 
 void ProjectWindow::setupVolumeWidget() {
-    QQuickWidget* volumeWidget = new BaseQmlWidget(this);
-    volumeWidget->setSource(QUrl("qrc:/qml/Project/TracksVolumeController.qml"));
-    auto* wrapper = workspaceWidget->addSubWidget(volumeWidget);
-
-    QtUtils::AddResizeListener(workspaceWidget, [=] (int width, int height) {
-        int y = height - volumeWidget->height();
-        wrapper->move(0, y);
-    });
-
-    this->volumeWidget = wrapper;
+//    QQuickWidget* volumeWidget = new BaseQmlWidget(this);
+//    volumeWidget->setSource(QUrl("qrc:/qml/Project/TracksVolumeController.qml"));
+//    auto* wrapper = workspaceWidget->addSubWidget(volumeWidget);
+//
+//    QtUtils::AddResizeListener(workspaceWidget, [=] (int width, int height) {
+//        int y = height - volumeWidget->height();
+//        wrapper->move(0, y);
+//    });
+//
+//    this->volumeWidget = wrapper;
 }
 
 void ProjectWindow::onOutputVolumeChanged(float value) {
@@ -209,7 +209,7 @@ void ProjectWindow::setShowTracks(bool value) {
     MainController::instance()->getWorkspaceController([=] (WorkspaceController* workspaceController) {
         workspaceController->setDrawTracks(value);
     });
-    volumeWidget->setVisible(false);
+    //volumeWidget->setVisible(false);
 }
 
 void ProjectWindow::wheelEvent(QWheelEvent *event) {
