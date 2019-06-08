@@ -26,27 +26,3 @@ void QMetalWidget::resizeEvent(QResizeEvent *event) {
 CAMetalLayer *QMetalWidget::getLayer() const {
     return metalView.metalLayer;
 }
-
-void QMetalWidget::addSubview(NSView* view) {
-    NSView* parent = QtUtils::getNSView(this);
-    [parent addSubview:view positioned:NSWindowAbove relativeTo:nil];
-}
-
-QMacNativeWidget*  QMetalWidget::addSubWidget(QWidget* widget) {
-    auto *nativeWidget = new QMacNativeWidget();
-//    widget->setParent(nativeWidget);
-//    NSView *nativeWidgetView = QtUtils::getNSView(nativeWidget);
-//    addSubview(nativeWidgetView);
-//    nativeWidget->show();
-//
-//    nativeWidget->resize(widget->size());
-//    QtUtils::AddResizeListener(widget, [&] (int width, int height) {
-//        nativeWidget->resize(width, height);
-//    }
-
-    return nativeWidget;
-}
-
-void QMetalWidget::showEvent(QShowEvent *event) {
-    QWidget::showEvent(event);
-}
