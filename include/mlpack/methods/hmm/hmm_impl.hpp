@@ -69,9 +69,9 @@ HMM<Distribution>::HMM(const arma::vec& initial,
     dimensionality = emission[0].Dimensionality();
   else
   {
-    Log::Warn << "HMM::HMM(): no emission distributions given; assuming a "
-        << "dimensionality of 0 and hoping it gets set right later."
-        << std::endl;
+//    Log::Warn << "HMM::HMM(): no emission distributions given; assuming a "
+//        << "dimensionality of 0 and hoping it gets set right later."
+//        << std::endl;
     dimensionality = 0;
   }
 }
