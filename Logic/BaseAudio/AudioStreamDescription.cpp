@@ -4,6 +4,7 @@
 //
 
 #include "AudioStreamDescription.h"
+#include <assert.h>
 
 AudioStreamDescription::AudioStreamDescription(const WavConfig &wavConfig, int samplesPerBuffer)
 : WavConfig(wavConfig), samplesPerBuffer(samplesPerBuffer) {

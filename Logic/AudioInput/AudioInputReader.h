@@ -25,9 +25,6 @@ public:
     virtual int getNumberOfChannels() const = 0;
     virtual WavConfig generateWavConfig() const = 0;
 
-    virtual const char* getDeviceName() const = 0;
-    virtual void setDeviceName(const char* deviceName) = 0;
-
     virtual ~AudioInputReader() = default;
 };
 

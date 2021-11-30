@@ -13,6 +13,7 @@ class FFT {
 public:
     virtual void setup(int size) = 0;
     virtual void execute(std::vector<std::complex<float>> *inOutData, bool forward) = 0;
+    virtual ~FFT() = default;
     static FFT* create();
 };
 

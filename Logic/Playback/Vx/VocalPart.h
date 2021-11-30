@@ -12,8 +12,6 @@
 #include "StlDebugUtils.h"
 #include <iostream>
 
-static constexpr int VERSION = 1;
-
 class VocalPart {
     std::vector<NoteInterval> notes;
     double ticksPerSecond = 0;
@@ -25,6 +23,9 @@ class VocalPart {
     bool validateNotes();
     void postInit();
 public:
+    static constexpr int VERSION = 1;
+    static constexpr int SERIALIZATION_ID = 2324324;
+
     VocalPart();
     VocalPart(std::vector<NoteInterval> &&pitches, int distanceInTicksBetweenLastPitchEndAndTrackEnd, double ticksPerSecond);
     VocalPart(const std::vector<NoteInterval> &pitches, int distanceInTicksBetweenLastPitchEndAndTrackEnd, double ticksPerSecond);
@@ -126,9 +127,7 @@ public:
     }
 
     template <typename Archive>
-    void saveOrLoad(Archive& archive, bool save) {
-        int version = VERSION;
-        archive(version);
+    void saveOrLoad(Archive& archive, bool save, int version) {
         archive(ticksPerSecond);
         archive(notes);
         archive(endSilenceDurationInTicks);

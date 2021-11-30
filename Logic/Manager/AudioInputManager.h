@@ -13,12 +13,12 @@
 #include "Executors.h"
 
 class AudioInputManager : private CppUtils::OnThreadExecutor {
-    AudioInputReaderWithOutput* audioInputReader = nullptr;
+    AudioInputReader* audioInputReader = nullptr;
     AudioInputRecorder* audioRecorder = nullptr;
     AudioInputPitchesRecorder* pitchesRecorder;
     bool audioRecordingEnabled = true;
 public:
-    explicit AudioInputManager(const char* deviceName);
+    AudioInputManager();
 
     void setInputSensitivity(float value);
     float getInputSensitivity() const;

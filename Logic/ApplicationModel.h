@@ -9,11 +9,14 @@
 #include "AudioInputManager.h"
 
 class ApplicationModel {
-    std::string getSfzFilePath() const;
-    std::string getMetronomeDataFilePath() const;
 public:
-    ApplicationModel();
+#ifdef __APPLE__
     static void init();
+#elif __ANDROID__
+    static void init(
+            const std::string& sfzPath, const std::string& metronomeDataFilePath);
+#endif
+    ApplicationModel(const std::string& sfzPath, const std::string& metronomeDataFilePath);
     static ApplicationModel* instance();
     VocalTrainerFilePlayer *createPlayer();
     AudioInputManager *createAudioInputManager();

@@ -15,7 +15,6 @@
 #include "Tonality.h"
 #include <boost/variant.hpp>
 #include <map>
-#import <Logic/TimeSignature.h>
 #include "Serializers.h"
 #include "TimeSignature.h"
 #include "AudioDataBufferSerialization.h"

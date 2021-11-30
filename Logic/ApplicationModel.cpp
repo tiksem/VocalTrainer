@@ -13,12 +13,11 @@ using std::cout;
 
 static ApplicationModel* model = nullptr;
 
-ApplicationModel::ApplicationModel() {
-    auto sfzPath = getSfzFilePath();
+ApplicationModel::ApplicationModel(const std::string &sfzPath,
+                                   const std::string &metronomeDataFilePath) {
     SfzPitchRenderer::initSfz(sfzPath);
-    std::string metronomeFilePath = getMetronomeDataFilePath();
-    if (!metronomeFilePath.empty()) {
-        std::string metronomeData = Strings::ReadBinaryFileContent(metronomeFilePath.data());
+    if (!metronomeDataFilePath.empty()) {
+        std::string metronomeData = Strings::ReadBinaryFileContent(metronomeDataFilePath.data());
         MetronomeAudioPlayer::setMetronomeAudioData(std::move(metronomeData));
     }
 }
@@ -28,11 +27,12 @@ VocalTrainerFilePlayer *ApplicationModel::createPlayer() {
 }
 
 AudioInputManager *ApplicationModel::createAudioInputManager() {
-    return new AudioInputManager("");
+    return new AudioInputManager();
 }
 
-void ApplicationModel::init() {
-    model = new ApplicationModel();
+void ApplicationModel::init(
+        const std::string& sfzPath, const std::string& metronomeDataFilePath) {
+    model = new ApplicationModel(sfzPath, metronomeDataFilePath);
 }
 
 ApplicationModel *ApplicationModel::instance() {

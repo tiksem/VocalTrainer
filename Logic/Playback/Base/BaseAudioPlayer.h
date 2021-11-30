@@ -13,7 +13,7 @@
 #include <SoundTouch/SoundTouch.h>
 #include "Executors.h"
 
-class BaseAudioPlayer : protected CppUtils::OnThreadExecutor {
+class BaseAudioPlayer : protected CppUtils::OnThreadExecutor, private AudioOutputWriterDelegate {
     AudioOutputWriter* writer = nullptr;
     PlaybackData playbackData;
     std::atomic_bool playing;
@@ -36,7 +36,10 @@ class BaseAudioPlayer : protected CppUtils::OnThreadExecutor {
 
     int readAudioDataApplySoundTouchIfNeed(void *outputBuffer, int requestedSamplesCount);
 
-    void writerCallback(void* buffer, int samplesCount);
+    void onStreamCrashed() override;
+    void onStreamRecreated() override;
+    void audioOutputWriterCallback(void *buffer, int framesCount) override;
+
 protected:
     virtual int readNextSamplesBatch(void *intoBuffer, int framesCount, const PlaybackData& playbackData) = 0;
 

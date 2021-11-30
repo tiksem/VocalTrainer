@@ -10,7 +10,7 @@
 #include "VocalPart.h"
 #include "VocalTrainerFile.h"
 #include "Lyrics.h"
-#include "Logic/AudioDataBuffer.h"
+#include "AudioDataBuffer.h"
 #include <sstream>
 
 class VxFile : public VocalTrainerFile {

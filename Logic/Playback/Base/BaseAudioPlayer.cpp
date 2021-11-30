@@ -10,7 +10,7 @@
 using namespace CppUtils;
 using namespace std::placeholders;
 
-void BaseAudioPlayer::writerCallback(void* outputBuffer, int samplesPerBuffer) {
+void BaseAudioPlayer::audioOutputWriterCallback(void* outputBuffer, int samplesPerBuffer) {
     memset(outputBuffer, 0, static_cast<size_t>(playbackData.getCallbackBufferSizeInBytes()));
     int samplesCopiedToOutputBufferCount = readAudioDataApplySoundTouchIfNeed(outputBuffer, samplesPerBuffer);
 
@@ -100,6 +100,14 @@ void BaseAudioPlayer::writerCallback(void* outputBuffer, int samplesPerBuffer) {
     }
 }
 
+void BaseAudioPlayer::onStreamCrashed() {
+    pause();
+}
+
+void BaseAudioPlayer::onStreamRecreated() {
+    play();
+}
+
 void BaseAudioPlayer::play() {
     play(getSeek());
 }
@@ -124,7 +132,7 @@ void BaseAudioPlayer::prepare() {
     }
 
     writer = AudioOutputWriter::create(playbackData);
-    writer->callback = std::bind(&BaseAudioPlayer::writerCallback, this, _1, _2);
+    writer->delegate = this;
 
     int key = onNoDataAvailableListeners.addListener([=] {
         onPlaybackStoppedListeners.executeAll();
@@ -178,9 +186,7 @@ void BaseAudioPlayer::pause() {
     playing = false;
     writer->stop();
     onDataSentToOutputListeners.removeListener(dataSentToOutputListenerKey);
-    executeOnMainThread([this] {
-        this->onPlaybackStoppedListeners.executeAll();
-    });
+    this->onPlaybackStoppedListeners.executeAll();
 }
 
 void BaseAudioPlayer::setSeek(double timeStamp) {

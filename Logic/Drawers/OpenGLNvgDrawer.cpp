@@ -4,7 +4,11 @@
 
 #include "OpenGLNvgDrawer.h"
 
-#if defined(_WIN32) or defined(__linux__)
+#if (defined(_WIN32) or defined(__linux__)) && !defined(__ANDROID__)
+#define WIN_OR_LINUX
+#endif
+
+#ifdef WIN_OR_LINUX
 #define NANOVG_GL3_IMPLEMENTATION
 #include <GLEW/GL/glew.h>
 #endif
@@ -15,12 +19,17 @@
 #define NANOVG_GL2_IMPLEMENTATION
 #endif
 
+#ifdef __ANDROID__
+#define NANOVG_GLES3_IMPLEMENTATION
+#include <GLES3/gl3.h>
+#endif
+
 #include <nanovg/nanovg_gl.h>
 #include <nanovg/fontstash.h>
 #include <NotImplementedAssert.h>
 
 OpenGLNvgDrawer::OpenGLNvgDrawer() {
-#if defined(_WIN32) or defined(__linux__)
+#ifdef WIN_OR_LINUX
     GLint GlewInitResult = glewInit();
     if (GLEW_OK != GlewInitResult) {
         const GLubyte *er = glewGetErrorString(GlewInitResult);
@@ -34,6 +43,10 @@ OpenGLNvgDrawer::OpenGLNvgDrawer() {
     ctx = nvgCreateGL2(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
 #endif
 
+#ifdef __ANDROID__
+    ctx = nvgCreateGLES3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
+#endif
+
     setupBase();
 }
 
@@ -43,11 +56,15 @@ void OpenGLNvgDrawer::clear() {
 }
 
 OpenGLNvgDrawer::~OpenGLNvgDrawer() {
-#if defined(_WIN32) or defined(__linux__)
+#ifdef WIN_OR_LINUX
     nvgDeleteGL3(ctx);
 #endif
 
 #ifdef __APPLE__
     nvgDeleteGL2(ctx);
+#endif
+
+#ifdef __ANDROID__
+    nvgDeleteGLES3(ctx);
 #endif
 }

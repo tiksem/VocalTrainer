@@ -16,3 +16,7 @@ float SevaghPitchDetector::getFrequencyFromBuffer(const int16_t *buffer) {
     AudioUtils::Int16SamplesIntoFloatSamples(buffer, static_cast<int>(tempFloatBuffer.size()), tempFloatBuffer.data());
     return yin->pitch(tempFloatBuffer, sampleRate);
 }
+
+SevaghPitchDetector::~SevaghPitchDetector() {
+    delete yin;
+}

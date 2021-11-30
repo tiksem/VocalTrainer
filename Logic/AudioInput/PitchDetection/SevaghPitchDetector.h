@@ -16,6 +16,7 @@ class SevaghPitchDetector : public PitchDetector {
 public:
     void init(int maxBufferSize, int sampleRate) override;
     float getFrequencyFromBuffer(const int16_t *buffer) override;
+    ~SevaghPitchDetector();
 };
 
 

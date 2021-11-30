@@ -5,6 +5,7 @@
 #ifndef VOCALTRAINER_OPENGLNVGDRAWER_H
 #define VOCALTRAINER_OPENGLNVGDRAWER_H
 
+#include "NvgDrawer.h"
 
 class OpenGLNvgDrawer : public NvgDrawer {
 public:

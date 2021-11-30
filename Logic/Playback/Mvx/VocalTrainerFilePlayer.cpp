@@ -18,7 +18,7 @@
 #include "VocalTrainerPlayerPrepareException.h"
 #include <iostream>
 #include <memory>
-#include "Logic/PitchesMutableList.h"
+#include "PitchesMutableList.h"
 #include "AudioOperationFailedException.h"
 #include "MathUtils.h"
 

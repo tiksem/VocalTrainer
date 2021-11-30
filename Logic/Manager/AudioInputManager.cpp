@@ -9,7 +9,11 @@
 #include "AudioInputReader.h"
 #include "AudioAverageInputLevelMonitor.h"
 #include "AudioUtils.h"
+#ifdef __APPLE__
 #include "AudioToolboxInputReader.h"
+#elif __ANDROID__
+#include "AAudioInputReader.h"
+#endif
 #include "NotImplementedAssert.h"
 
 static constexpr float THRESHOLD = 0.1;
@@ -18,8 +22,12 @@ static const int SMOOTH_LEVEL = 4;
 
 using namespace CppUtils;
 
-AudioInputManager::AudioInputManager(const char* deviceName) {
+AudioInputManager::AudioInputManager() {
+#ifdef __APPLE__
     audioInputReader = new AudioToolboxInputReader(BUFFER_SIZE);
+#elif __ANDROID__
+    audioInputReader = new AAudioInputReader(BUFFER_SIZE);
+#endif
     pitchesRecorder = new AudioInputPitchesRecorder();
     pitchesRecorder->init(audioInputReader, SMOOTH_LEVEL, new SevaghPitchDetector());
     audioInputReader->start();
@@ -42,19 +50,19 @@ float AudioInputManager::getInputSensitivity() const {
 }
 
 void AudioInputManager::setOutputVolume(float value) {
-    //audioInputReader->setOutputVolume(value);
+    NOT_IMPLEMENTED_ASSERT;
 }
 
 float AudioInputManager::getOutputVolume() const {
-    return audioInputReader->getOutputVolume();
+    return 0;
 }
 
 const char* AudioInputManager::getInputDeviceName() const {
-    return audioInputReader->getDeviceName();
+    return "";
 }
 
 void AudioInputManager::setInputDeviceName(const char *deviceName) const {
-    audioInputReader->setDeviceName(deviceName);
+    NOT_IMPLEMENTED_ASSERT;
 }
 
 void AudioInputManager::addAudioInputReaderCallback(const AudioInputReader::Callback &callback, CppUtils::AbstractDestructorQueue* parent) {
