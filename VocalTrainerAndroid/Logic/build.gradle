@@ -6,11 +6,11 @@ plugins {
 
 android {
     ndkVersion "23.1.7779620"
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
-        minSdk 26
-        targetSdk 30
+        minSdk 28
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -46,10 +46,7 @@ android {
 
 kapt {
     arguments {
-        arg("jenny.threadSafe", "false")
-        arg("jenny.headerOnlyProxy", "true")
-        arg("jenny.useJniHelper", "true")
-        arg("jenny.fusionProxyHeaderName", "JennyFisonProxy.h")
+        arg("cpp.outputDirectory", projectDir.absolutePath + "/src/main/cpp")
     }
 }
 
@@ -62,6 +59,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    compileOnly 'io.github.landerlyoung:jenny-annotation:1.0.0'
-    kapt 'io.github.landerlyoung:jenny-compiler:1.0.0'
+    implementation 'com.neborosoft:android_jni_bridge_generator_annotations:1.0.5'
+    kapt 'com.neborosoft:android_jni_bridge_generator_annotations:1.0.5'
+    kapt 'com.neborosoft:android_jni_bridge_generator:1.0.5'
 }

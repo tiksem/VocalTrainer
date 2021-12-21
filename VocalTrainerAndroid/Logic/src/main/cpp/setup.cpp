@@ -1,7 +1,5 @@
 #include <jni.h>
-#include "AndroidApplicationModel.h"
-#include "AudioDeviceProviderProxy.h"
-#include "JavaObject.h"
+#include "JNIBridgeInit.h"
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     JNIEnv* env;
@@ -9,8 +7,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         return JNI_ERR;
     }
 
-    AndroidApplicationModel::registerNativeFunctions(env);
-    AudioDeviceProviderProxy::initClazz(env);
+    JNIBridgeInit(env);
 
     return JNI_VERSION_1_6;
 }

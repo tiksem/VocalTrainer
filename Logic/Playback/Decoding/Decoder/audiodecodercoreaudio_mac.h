@@ -46,7 +46,7 @@
 #ifndef AUDIODECODERCOREAUDIO_H 
 #define AUDIODECODERCOREAUDIO_H 
 
-#include "audiodecoder.h"
+#include "AudioDecoder.h"
 
 #include <AudioToolbox/AudioToolbox.h>
 #include "apple/CAStreamBasicDescription.h"

@@ -132,7 +132,7 @@
 		54338FBD258A59A500C7D5E2 /* RealtimeStreamingAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD237BA848E184310FD5AC /* RealtimeStreamingAudioPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54338FBE258A59A500C7D5E2 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2F01FB6D1F6BB5C2D518 /* CADebugMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54338FBF258A59A500C7D5E2 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2E627137CE17224299E7 /* CAStreamBasicDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		54338FC0258A59A500C7D5E2 /* audiodecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2CFA32A9950C2F4148BC /* audiodecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54338FC0258A59A500C7D5E2 /* AudioDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2CFA32A9950C2F4148BC /* AudioDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54338FC1258A59A500C7D5E2 /* DecodedTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2C6157EC8C243B56D626 /* DecodedTrack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54338FC2258A59A500C7D5E2 /* audiodecodercoreaudio_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2A73FCF87877F9F15046 /* audiodecodercoreaudio_mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54338FC3258A59A500C7D5E2 /* AudioFilePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2C17A6DD7902CABC6911 /* AudioFilePlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,7 +258,7 @@
 		5433904A258A59A500C7D5E2 /* MetronomeAudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD2DC58AC83E34143EAAD7 /* MetronomeAudioPlayer.cpp */; };
 		5433904B258A59A500C7D5E2 /* BaseRawPcmAudioDataPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD26B2BEC5BEE09F688699 /* BaseRawPcmAudioDataPlayer.cpp */; };
 		5433904C258A59A500C7D5E2 /* RealtimeStreamingAudioPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD2AC1E555DF04693C77E5 /* RealtimeStreamingAudioPlayer.cpp */; };
-		5433904D258A59A500C7D5E2 /* audiodecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD223E8F388DCA86BDF8A3 /* audiodecoder.cpp */; };
+		5433904D258A59A500C7D5E2 /* AudioDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD223E8F388DCA86BDF8A3 /* AudioDecoder.cpp */; };
 		5433904E258A59A500C7D5E2 /* DecodedTrack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD2CBED6FA1E08D2F2F940 /* DecodedTrack.cpp */; };
 		5433904F258A59A500C7D5E2 /* audiodecodercoreaudio_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD29C6287FB817B5159A31 /* audiodecodercoreaudio_mac.cpp */; };
 		54339050258A59A500C7D5E2 /* AudioFilePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD2E2F1B0618043F8069B6 /* AudioFilePlayer.cpp */; };
@@ -409,7 +409,7 @@
 		71AD22C5278A1EA18D6156C6 /* Collections.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD25C2AAAAD50117883FE0 /* Collections.h */; };
 		71AD230A76F05BFA7E3EF66B /* NotImplementedAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD25D28AB6980DB6AD54FE /* NotImplementedAssert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71AD23248280AC3FE0938463 /* CircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2AF1CC9A8198F56AED70 /* CircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		71AD23362B4D03F9F35D9486 /* audiodecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2CFA32A9950C2F4148BC /* audiodecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		71AD23362B4D03F9F35D9486 /* AudioDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD2CFA32A9950C2F4148BC /* AudioDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71AD234F543E8411A5571A94 /* BaseRawPcmAudioDataPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD26B2BEC5BEE09F688699 /* BaseRawPcmAudioDataPlayer.cpp */; };
 		71AD23541470EBA844832CD7 /* PlaybackData.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD20E6C3A255A4EF630588 /* PlaybackData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71AD23B6FDD36CFA17855F7C /* Executors.mm in Sources */ = {isa = PBXBuildFile; fileRef = 71AD20B4800038FC25DD4A77 /* Executors.mm */; };
@@ -542,7 +542,7 @@
 		71AD2EFCCB2A20B54418FF39 /* PianoDrawer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD296481A675BAF8BF9922 /* PianoDrawer.cpp */; };
 		71AD2F0F3EC5ADBBDE3549DA /* WavAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD24669F8DD78AF572D004 /* WavAudioPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71AD2F1BCC49BCD47A51AE5D /* AudioInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD26179700FDC84158D199 /* AudioInputManager.cpp */; };
-		71AD2F211C7CFD1DD21E28F3 /* audiodecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD223E8F388DCA86BDF8A3 /* audiodecoder.cpp */; };
+		71AD2F211C7CFD1DD21E28F3 /* AudioDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD223E8F388DCA86BDF8A3 /* AudioDecoder.cpp */; };
 		71AD2F27B8A5B3CA6ADFDD69 /* MidiFileReaderException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD24B01A582050A99E4A53 /* MidiFileReaderException.cpp */; };
 		71AD2F28770FBCAADDFDE8A0 /* Lyrics.h in Headers */ = {isa = PBXBuildFile; fileRef = 71AD280126FD96A1307B690C /* Lyrics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71AD2F35A22E486D4879C9AF /* AudioInputPitchesRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71AD25758139F4B8B31A4E97 /* AudioInputPitchesRecorder.cpp */; };
@@ -840,7 +840,7 @@
 		71AD220FA49518F9EA38C1EC /* AudioInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioInputManager.h; sourceTree = "<group>"; };
 		71AD223712B4878E8451D22D /* BaseMouseEventsReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseMouseEventsReceiver.cpp; sourceTree = "<group>"; };
 		71AD223DC452CCD04574FC8B /* ProjectControllerBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectControllerBridge.mm; sourceTree = "<group>"; };
-		71AD223E8F388DCA86BDF8A3 /* audiodecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audiodecoder.cpp; sourceTree = "<group>"; };
+		71AD223E8F388DCA86BDF8A3 /* AudioDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDecoder.cpp; sourceTree = "<group>"; };
 		71AD224238D2A013D97F1FF7 /* TimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeUtils.h; sourceTree = "<group>"; };
 		71AD224683097BE5C42F6AD3 /* PlaybackBounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlaybackBounds.cpp; sourceTree = "<group>"; };
 		71AD2258F4F58DFA4E4DBE81 /* System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = System.cpp; sourceTree = "<group>"; };
@@ -954,7 +954,7 @@
 		71AD2CD97A761DACB81845E9 /* miniz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniz.h; sourceTree = "<group>"; };
 		71AD2CDF8FE9522FA0CAC810 /* MvxFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MvxFile.cpp; sourceTree = "<group>"; };
 		71AD2CF6B941BB357C50635B /* audioinput.cmake */ = {isa = PBXFileReference; lastKnownFileType = file.cmake; path = audioinput.cmake; sourceTree = "<group>"; };
-		71AD2CFA32A9950C2F4148BC /* audiodecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audiodecoder.h; sourceTree = "<group>"; };
+		71AD2CFA32A9950C2F4148BC /* AudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDecoder.h; sourceTree = "<group>"; };
 		71AD2CFD3311926C531FAB76 /* Bitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitmap.h; sourceTree = "<group>"; };
 		71AD2CFD99DCF20663FFEA80 /* MetalNvgDrawer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MetalNvgDrawer.cpp; sourceTree = "<group>"; };
 		71AD2CFEF3E509143AE5B370 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
@@ -1430,9 +1430,9 @@
 			isa = PBXGroup;
 			children = (
 				71AD2D16D863D872EB5A9BBD /* apple */,
-				71AD2CFA32A9950C2F4148BC /* audiodecoder.h */,
+				71AD2CFA32A9950C2F4148BC /* AudioDecoder.h */,
 				71AD2C6157EC8C243B56D626 /* DecodedTrack.h */,
-				71AD223E8F388DCA86BDF8A3 /* audiodecoder.cpp */,
+				71AD223E8F388DCA86BDF8A3 /* AudioDecoder.cpp */,
 				71AD2CBED6FA1E08D2F2F940 /* DecodedTrack.cpp */,
 				71AD2A73FCF87877F9F15046 /* audiodecodercoreaudio_mac.h */,
 				71AD29C6287FB817B5159A31 /* audiodecodercoreaudio_mac.cpp */,
@@ -2039,7 +2039,7 @@
 				54338FBD258A59A500C7D5E2 /* RealtimeStreamingAudioPlayer.h in Headers */,
 				54338FBE258A59A500C7D5E2 /* CADebugMacros.h in Headers */,
 				54338FBF258A59A500C7D5E2 /* CAStreamBasicDescription.h in Headers */,
-				54338FC0258A59A500C7D5E2 /* audiodecoder.h in Headers */,
+				54338FC0258A59A500C7D5E2 /* AudioDecoder.h in Headers */,
 				54338FC1258A59A500C7D5E2 /* DecodedTrack.h in Headers */,
 				54338FC2258A59A500C7D5E2 /* audiodecodercoreaudio_mac.h in Headers */,
 				54338FC3258A59A500C7D5E2 /* AudioFilePlayer.h in Headers */,
@@ -2209,7 +2209,7 @@
 				71AD2499F0A1287A7DEC5A0C /* RealtimeStreamingAudioPlayer.h in Headers */,
 				71AD21493BF6F4026B3A9CBE /* CADebugMacros.h in Headers */,
 				71AD2142DB57B2C387624236 /* CAStreamBasicDescription.h in Headers */,
-				71AD23362B4D03F9F35D9486 /* audiodecoder.h in Headers */,
+				71AD23362B4D03F9F35D9486 /* AudioDecoder.h in Headers */,
 				71AD29F2433AE33E6819229A /* DecodedTrack.h in Headers */,
 				71AD2A22FC38BF0EEE879F7D /* audiodecodercoreaudio_mac.h in Headers */,
 				71AD2239311DED1673717361 /* AudioFilePlayer.h in Headers */,
@@ -2652,7 +2652,7 @@
 				5433904A258A59A500C7D5E2 /* MetronomeAudioPlayer.cpp in Sources */,
 				5433904B258A59A500C7D5E2 /* BaseRawPcmAudioDataPlayer.cpp in Sources */,
 				5433904C258A59A500C7D5E2 /* RealtimeStreamingAudioPlayer.cpp in Sources */,
-				5433904D258A59A500C7D5E2 /* audiodecoder.cpp in Sources */,
+				5433904D258A59A500C7D5E2 /* AudioDecoder.cpp in Sources */,
 				5433904E258A59A500C7D5E2 /* DecodedTrack.cpp in Sources */,
 				5433904F258A59A500C7D5E2 /* audiodecodercoreaudio_mac.cpp in Sources */,
 				54339050258A59A500C7D5E2 /* AudioFilePlayer.cpp in Sources */,
@@ -2800,7 +2800,7 @@
 				71AD21A5F13C290F23339473 /* MetronomeAudioPlayer.cpp in Sources */,
 				71AD234F543E8411A5571A94 /* BaseRawPcmAudioDataPlayer.cpp in Sources */,
 				71AD287095C9F34B98B13878 /* RealtimeStreamingAudioPlayer.cpp in Sources */,
-				71AD2F211C7CFD1DD21E28F3 /* audiodecoder.cpp in Sources */,
+				71AD2F211C7CFD1DD21E28F3 /* AudioDecoder.cpp in Sources */,
 				71AD2AB4F815FD1476F770DD /* DecodedTrack.cpp in Sources */,
 				71AD2E38E871FD91E2383B2A /* audiodecodercoreaudio_mac.cpp in Sources */,
 				71AD20C742A14945D7C35666 /* AudioFilePlayer.cpp in Sources */,

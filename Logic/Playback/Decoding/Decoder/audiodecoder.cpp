@@ -36,7 +36,7 @@
  * license above.
  */
 
-#include "audiodecoder.h"
+#include "AudioDecoder.h"
 #include "WAVFile.h"
 
 #include <memory>
@@ -44,14 +44,15 @@
 #if defined(__APPLE__)
 #include "audiodecodercoreaudio_mac.h"
 #include "DecodedTrack.h"
-
 #elif defined(_WIN32)
 #include "audiodecodermediafoundation_win.h"
+#elif defined(__ANDROID__)
+#include "AndroidAudioDecoder.h"
 #else
-#include"audiodecoderffmpeg.h"
+#include "audiodecoderffmpeg.h"
 #endif
 
-int    AudioDecoder::numSamples()        const { return m_iNumSamples; }
+int    AudioDecoder::numSamples()        const { return  m_iNumSamples; }
 
 int    AudioDecoder::channels()          const { return m_iChannels; }
 
@@ -67,7 +68,7 @@ AudioDecoder *AudioDecoder::create() {
 #elif defined(_WIN32)
     return new AudioDecoderMediaFoundation();
 #else
-    return new AudioDecoderFFmpeg();
+    return new AndroidAudioDecoder();
 #endif
 }
 

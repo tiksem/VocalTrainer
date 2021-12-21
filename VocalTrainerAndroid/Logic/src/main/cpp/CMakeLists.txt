@@ -11,6 +11,7 @@ set(sources
         CppUtils/StringEncodingUtils.cpp
         CppUtils/WAVFile.cpp
         CppUtils/TimeUtils.cpp
+        CppUtils/Timer.cpp
         CppUtils/android/AndroidExecutor.cpp
         CppUtils/jni/JniUTFString.cpp
 
@@ -18,9 +19,10 @@ set(sources
 
         BaseAudio/AudioStreamDescription.cpp
         BaseAudio/Android/AAudioUtils.cpp
-        BaseAudio/Android/AndroidAudioDeviceProvider.cpp
         BaseAudio/Android/AAudioStreamWrapper.cpp
+        BaseAudio/Android/AudioDeviceProvider.cpp
 
+        Playback/Base/PlaybackData.cpp
         Playback/Base/BaseAudioPlayer.cpp
         Playback/Base/AudioOperationFailedException.cpp
         Playback/Base/AudioPlayerWithDefaultSeekHandler.cpp
@@ -30,7 +32,19 @@ set(sources
         Playback/Base/Android/AAudioOutputWriter.cpp
 
         Playback/Other/MetronomeAudioPlayer.cpp
+        Playback/Other/BaseRawPcmAudioDataPlayer.cpp
+        Playback/Other/WavAudioPlayer.cpp
+
         Playback/Mvx/VocalTrainerFilePlayer.cpp
+        Playback/Mvx/LyricsPlayer.cpp
+        Playback/Mvx/Lyrics.cpp
+        Playback/Mvx/MvxFile.cpp
+        Playback/Mvx/VocalTrainerPlayerPrepareException.cpp
+        Playback/Mvx/Rewinder.cpp
+
+        Playback/Decoding/AudioFilePlayer.cpp
+        Playback/Decoding/Decoder/AudioDecoder.cpp
+        Playback/Decoding/Decoder/AndroidAudioDecoder.cpp
 
         Playback/Vx/SfzPitchRenderer.cpp
         Playback/Vx/PitchDuration.cpp
@@ -39,6 +53,15 @@ set(sources
         Playback/Vx/VocalPartAudioDataGenerator.cpp
         Playback/Vx/VocalPartAudioPlayer.cpp
         Playback/Vx/VxFile.cpp
+        
+        Playback/liquidsfz/hydrogenimport.cc
+        Playback/liquidsfz/liquidsfz.cc
+        Playback/liquidsfz/loader.cc
+        Playback/liquidsfz/log.cc
+        Playback/liquidsfz/pugixml.cc
+        Playback/liquidsfz/synth.cc
+        Playback/liquidsfz/utils.cc
+        Playback/liquidsfz/voice.cc
 
         Pitch/Pitch.cpp
         Pitch/SeekablePitchesList.cpp
@@ -51,6 +74,8 @@ set(sources
         Drawers/Drawer.cpp
         Drawers/OpenGLNvgDrawer.cpp
         Drawers/NvgDrawer.cpp
+
+        Workspace/WorkspaceColorScheme.cpp
 
         AudioInput/AudioAverageInputLevelMonitor.cpp
         AudioInput/AudioInputPitchesRecorder.cpp
@@ -116,22 +141,30 @@ set(includes
 list(TRANSFORM sources PREPEND logic/)
 list(TRANSFORM includes PREPEND logic/)
 
-include_directories(${includes} logic/)
+include_directories(${includes} logic/ ../cpp)
 
 add_library(
         Logic
         SHARED
-        AndroidApplicationModel.cpp
+        AndroidApplicationModelFunctions.jni.cpp
+        AndroidApplicationModelFunctions.cpp
+        FunctionCallsBridge.cpp
+        JArray.cpp
+        JObject.cpp
+        JString.cpp
         setup.cpp
-        JavaObject.h
+
         ${sources}
 )
 
 target_compile_features(Logic PRIVATE cxx_std_17)
 
 target_link_libraries(Logic
-        ${CMAKE_SOURCE_DIR}/logic/libs/android/arm64-v8a/libmlpack.a
+        ${CMAKE_SOURCE_DIR}/logic/libs/android/${ANDROID_ABI}/libSoundTouch.a
+        ${CMAKE_SOURCE_DIR}/logic/libs/android/${ANDROID_ABI}/libsndfile.a
         android
+        mediandk
+        aaudio
         log
         EGL
         GLESv3

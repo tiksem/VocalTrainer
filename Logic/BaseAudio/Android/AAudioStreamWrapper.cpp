@@ -4,7 +4,7 @@
 
 #include "AAudioStreamWrapper.h"
 #include "AAudioUtils.h"
-#include "AndroidAudioDeviceProvider.h"
+#include "AudioDeviceProvider.h"
 #include "AudioOperationFailedException.h"
 #include "StringUtils.h"
 #include "Executors.h"
@@ -18,10 +18,9 @@ AAudioStreamWrapper::AAudioStreamWrapper(const AAudioStreamDescription &descript
 }
 
 void AAudioStreamWrapper::setup() {
-    auto* audioDeviceProvider = AndroidAudioDeviceProvider::instance();
-    assert(audioDeviceProvider && "audioDeviceProvider has npt been initialized");
-    int deviceId = description.input ? audioDeviceProvider->getInputDeviceId() :
-            audioDeviceProvider->getOutputDeviceId();
+    auto& audioDeviceProvider = AudioDeviceProvider::instance();
+    int deviceId = description.input ? audioDeviceProvider.getInputDeviceId() :
+            audioDeviceProvider.getOutputDeviceId();
     if (deviceId < 0) {
         throw AudioOperationFailedException(
                 Strings::ToString(

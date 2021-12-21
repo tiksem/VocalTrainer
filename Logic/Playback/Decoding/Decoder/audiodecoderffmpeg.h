@@ -13,7 +13,7 @@ extern "C"{
 
 #include <sstream>
 
-#include "audiodecoder.h"
+#include "AudioDecoder.h"
 
 class AudioDecoderFFmpeg : public AudioDecoder {
 

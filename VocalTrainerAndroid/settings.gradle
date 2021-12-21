@@ -4,6 +4,14 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+
+        maven {
+            url = uri("https://maven.pkg.github.com/tiksem/AndroidJniBridgeGenerator")
+            credentials {
+                username = "tiksem"
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 rootProject.name = "VocalTrainerAndroid"

@@ -4,7 +4,7 @@
 //
 
 #include "MvxFile.h"
-#include "audiodecoder.h"
+#include "AudioDecoder.h"
 #include "AudioUtils.h"
 #include "BinaryArchive.h"
 

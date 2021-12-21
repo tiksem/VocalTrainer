@@ -83,10 +83,10 @@ void AudioDecoderFFmpeg::open(std::string &&data)
     // Detect channels
     if (codecContext->channels == 1) {
         codecContext->request_channel_layout = AV_CH_LAYOUT_MONO;
-        m_iChannels = codecContext->channels;
+        numberOfChannels = codecContext->channels;
     } else {
         codecContext->request_channel_layout = AV_CH_LAYOUT_STEREO;
-        m_iChannels = 2;
+        numberOfChannels = 2;
     }
 
     // Print information
@@ -132,7 +132,7 @@ void AudioDecoderFFmpeg::seek(int sampleIdx)
 {
     assert(sampleIdx > 0);
 
-    long timestamp = (sampleIdx / m_iSampleRate) / m_iChannels * AV_TIME_BASE;
+    long timestamp = (sampleIdx / m_iSampleRate) / numberOfChannels * AV_TIME_BASE;
     av_seek_frame(formatContext, -1, timestamp, AVSEEK_FLAG_BACKWARD);
     avcodec_flush_buffers(codecContext);
     av_packet_unref(&packet);
@@ -155,8 +155,8 @@ int AudioDecoderFFmpeg::read(int samplesCount, SAMPLE *destination)
 
     // Copy samples to destination
     for (int i = 0; i < samplesToCopy; ++i) {
-        int currentChannel = (i + samplesRead) % m_iChannels; // For planar audio need to interchange channels
-        int currentOffset = (i + samplesRead) / m_iChannels * sampleSize;
+        int currentChannel = (i + samplesRead) % numberOfChannels; // For planar audio need to interchange channels
+        int currentOffset = (i + samplesRead) / numberOfChannels * sampleSize;
         memcpy(destination + i, resampledFrame->extended_data[currentChannel] + currentOffset, unsigned(sampleSize));
     }
 
@@ -171,8 +171,8 @@ int AudioDecoderFFmpeg::read(int samplesCount, SAMPLE *destination)
             int samplesLeft = samplesCount - samplesToCopy;
 
             for (int i = 0; i < samplesLeft; ++i) {
-                int currentChannel = (i + samplesRead) % m_iChannels; // For planar audio need to interchange channels
-                int currentOffset = (i + samplesRead) / m_iChannels * sampleSize;
+                int currentChannel = (i + samplesRead) % numberOfChannels; // For planar audio need to interchange channels
+                int currentOffset = (i + samplesRead) / numberOfChannels * sampleSize;
                 memcpy(destination + samplesToCopy + i, resampledFrame->extended_data[currentChannel] + currentOffset, unsigned(sampleSize));
             }
 

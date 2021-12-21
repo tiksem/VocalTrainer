@@ -7,7 +7,7 @@
 #define VOCALTRAINER_AUDIOFILEPLAYER_H
 
 #include "AudioPlayerWithDefaultSeekHandler.h"
-#include "audiodecoder.h"
+#include "AudioDecoder.h"
 #include "AudioDataBuffer.h"
 #include "SoundTouch/SoundTouch.h"
 

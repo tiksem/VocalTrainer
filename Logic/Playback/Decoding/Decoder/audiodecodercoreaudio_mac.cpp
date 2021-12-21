@@ -78,7 +78,7 @@ void AudioDecoderCoreAudio::open(AudioDataBufferConstPtr data) {
         throw std::runtime_error("AudioDecoderCoreAudio: ExtAudioFileWrapAudioFileID error " + std::to_string(err));
     }
 
-    /** TODO: Use FSRef for compatibility with 10.4 Tiger. 
+    /** TODO: Use FSRef for compatibility with 10.4 Tiger.
         Note that ExtAudioFileOpen() is deprecated above Tiger, so we must maintain
         both code paths if someone finishes this part of the code.
     FSRef fsRef;
@@ -107,7 +107,7 @@ void AudioDecoderCoreAudio::open(AudioDataBufferConstPtr data) {
 
     //Note iPhone/iOS only supports signed integers supposedly:
     //outputFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger;
-	
+
     //Debugging:
     //printf ("Source File format: "); inputFormat.Print();
     //printf ("Dest File format: "); outputFormat.Print();
@@ -148,7 +148,7 @@ void AudioDecoderCoreAudio::open(AudioDataBufferConstPtr data) {
 	}
 	
 	//Set m_iChannels and m_iNumSamples;
-	m_iChannels = clientFormat.NumberChannels();
+	numberOfChannels = clientFormat.NumberChannels();
 
 	//get the total length in frames of the audio file - copypasta: http://discussions.apple.com/thread.jspa?threadID=2364583&tstart=47
 	UInt32		dataSize;
@@ -184,10 +184,10 @@ void AudioDecoderCoreAudio::open(AudioDataBufferConstPtr data) {
          
          headerFrames=primeInfo.leadingFrames;
       }
-	
-	m_iNumSamples = (totalFrameCount/*-m_headerFrames*/)*m_iChannels;
+
+    samplesCount = (totalFrameCount/*-m_headerFrames*/) * numberOfChannels;
 	m_iSampleRate = inputFormat.mSampleRate;
-	m_fDuration = m_iNumSamples / static_cast<float>(m_iSampleRate * m_iChannels);
+	m_fDuration = samplesCount / static_cast<float>(m_iSampleRate * numberOfChannels);
 	
     //Convert mono files into stereo
     if (inputFormat.NumberChannels() == 1)
@@ -261,9 +261,9 @@ int AudioDecoderCoreAudio::read(int samplesCount, SAMPLE *destination) {
 		numFramesRead += numFrames;
     }
     
-    m_iPositionInSamples += numFramesRead*m_iChannels;
+    m_iPositionInSamples += numFramesRead * numberOfChannels;
 
-    return numFramesRead*m_iChannels;
+    return numFramesRead * numberOfChannels;
 }
 
 
