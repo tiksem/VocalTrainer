@@ -6,7 +6,7 @@
 #include "WorkspaceDrawer.h"
 #include <assert.h>
 #include "CountAssert.h"
-#include "Logic/Pitch.h"
+#include "Pitch.h"
 #include "TimeUtils.h"
 #include <iostream>
 #include <cmath>
@@ -685,7 +685,8 @@ WorkspaceDrawer::WorkspaceDrawer(Drawer *drawer,
         MouseEventsReceiver *mouseEventsReceiver,
         WorkspaceDrawerResourcesProvider *resourcesProvider,
         bool drawScrollbars,
-        const std::function<void()> &onUpdateRequested)
+        const std::function<void()> &onUpdateRequested,
+        bool deleteResourcesProviderOnDestructor)
         :
         intervalWidth(-1),
         intervalHeight(-1),
@@ -706,7 +707,8 @@ WorkspaceDrawer::WorkspaceDrawer(Drawer *drawer,
         horizontalScrollBar(drawer, mouseEventsReceiver, ScrollBar::HORIZONTAL),
         onUpdateRequested(onUpdateRequested),
         mouseClickChecker(mouseEventsReceiver),
-        resourcesProvider(resourcesProvider) {
+        resourcesProvider(resourcesProvider),
+        deleteResourcesProviderOnDestructor(deleteResourcesProviderOnDestructor) {
     CHECK_IF_RENDER_THREAD;
     setPitchRadius(PITCH_RADIUS);
 
@@ -729,7 +731,9 @@ WorkspaceDrawer::~WorkspaceDrawer() {
     delete pianoDrawer;
     delete mouseEventsReceiver;
     delete boundsSelectionController;
-    delete resourcesProvider;
+    if (deleteResourcesProviderOnDestructor) {
+        delete resourcesProvider;
+    }
 }
 
 float WorkspaceDrawer::getSizeMultiplier() const {

@@ -76,6 +76,7 @@ set(sources
         Drawers/NvgDrawer.cpp
 
         Workspace/WorkspaceColorScheme.cpp
+        Workspace/WorkspaceDrawer.cpp
 
         AudioInput/AudioAverageInputLevelMonitor.cpp
         AudioInput/AudioInputPitchesRecorder.cpp
@@ -99,6 +100,8 @@ set(sources
         FFT/muFFT/cpu.c
         FFT/muFFT/kernel.c
         FFT/muFFT/MuFFT.cpp
+
+        Events/BaseMouseEventsReceiver.cpp
 
         nanovg/nanovg.cpp
         )
@@ -134,6 +137,9 @@ set(includes
         Manager
         Workspace
         Drawers
+        Events
+
+        Controllers
 
         FFT
 )
@@ -152,7 +158,20 @@ add_library(
         JArray.cpp
         JObject.cpp
         JString.cpp
+        KotlinConstructors.cpp
         setup.cpp
+        Converters.cpp
+        CustomConverters.cpp
+
+        WorkspaceRenderer.jni.cpp
+        WorkspaceRenderer.cpp
+        AndroidWorkspaceDrawerResourcesProvider.cpp
+        ProjectControllerBridge.cpp
+        ProjectControllerBridge.jni.cpp
+        ProjectControllerBridgeDelegate.cpp
+        AndroidProjectControllerDelegate.cpp
+        SingingCompletionFlowBridge.cpp
+        RecordingsProviderBridge.cpp
 
         ${sources}
 )

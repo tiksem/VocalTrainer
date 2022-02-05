@@ -68,3 +68,19 @@ OpenGLNvgDrawer::~OpenGLNvgDrawer() {
     nvgDeleteGLES3(ctx);
 #endif
 }
+
+int OpenGLNvgDrawer::getImageHandleFromFrameBuffer(void *frameBuffer) {
+    NOT_IMPLEMENTED_ASSERT
+}
+
+void *OpenGLNvgDrawer::createFrameBuffer(int w, int h) {
+    NOT_IMPLEMENTED_ASSERT
+}
+
+void OpenGLNvgDrawer::bindFrameBuffer(void *frameBuffer) {
+    NOT_IMPLEMENTED_ASSERT
+}
+
+void OpenGLNvgDrawer::deleteFrameBuffer(void *frameBuffer) {
+    NOT_IMPLEMENTED_ASSERT
+}

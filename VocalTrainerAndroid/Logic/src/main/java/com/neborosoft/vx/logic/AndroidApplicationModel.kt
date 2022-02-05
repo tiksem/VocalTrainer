@@ -17,7 +17,8 @@ object AndroidApplicationModel {
                                     metronomeDataPath: String)
 
     fun init(context: Context, previousAppVersion: Long, currentAppVersion: Long) {
-        AudioDeviceProvider
+        AudioDeviceProvider.init(context)
+        RecordingsProvider.init()
 
         val sfzPath = AssetUtils.extractAssetsToAppDirectory(
             context,

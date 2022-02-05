@@ -94,6 +94,7 @@ class WorkspaceDrawer : public WorkspaceController {
     bool willDrawScrollbars;
 
     WorkspaceDrawerResourcesProvider* resourcesProvider;
+    bool deleteResourcesProviderOnDestructor = false;
     WorkspaceControllerDelegate* delegate = nullptr;
     BoundsSelectionController* boundsSelectionController = nullptr;
 
@@ -160,7 +161,8 @@ public:
             MouseEventsReceiver *mouseEventsReceiver,
             WorkspaceDrawerResourcesProvider *resourcesProvider,
             bool drawScrollbars,
-            const std::function<void()> &onUpdateRequested
+            const std::function<void()> &onUpdateRequested,
+            bool deleteResourcesProviderOnDestructor = true
             );
     ~WorkspaceDrawer();
 

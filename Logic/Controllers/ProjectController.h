@@ -63,9 +63,9 @@ class ProjectController : CppUtils::DestructorQueue, public WorkspaceControllerD
 
     MvxFile* generateRecording() const;
 
-    void tryAgain() override;
-    void save() override;
-    void listen() override;
+    virtual void tryAgain() override;
+    virtual void save() override;
+    virtual void listen() override;
 public:
     explicit ProjectController(ProjectControllerDelegate* delegate);
 

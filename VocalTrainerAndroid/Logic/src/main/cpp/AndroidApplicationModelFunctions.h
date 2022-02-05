@@ -14,7 +14,7 @@
 // headers
 
 namespace AndroidApplicationModelFunctions {
-    void nativeInit(const JString& sfzPath,const JString& metronomeDataPath);
+    void nativeInit(const JString& sfzPath, const JString& metronomeDataPath);
 }
 
 #endif //JNIBRIDGEGENERATOR_AndroidApplicationModelFunctions_H

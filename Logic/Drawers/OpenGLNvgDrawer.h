@@ -12,6 +12,12 @@ public:
     OpenGLNvgDrawer();
     ~OpenGLNvgDrawer() override;
     void clear() override;
+
+protected:
+    int getImageHandleFromFrameBuffer(void *frameBuffer) override;
+    void *createFrameBuffer(int w, int h) override;
+    void bindFrameBuffer(void *frameBuffer) override;
+    void deleteFrameBuffer(void *frameBuffer) override;
 };
 
 
